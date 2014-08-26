@@ -1,4 +1,4 @@
-from settings import DATA_FILES
+from settings import DATA_FILES, START_CAPITAL
 from forex import RawData, simulate
 import random
 
@@ -75,5 +75,6 @@ decisioner = Decisioner()
 
 for year in [2011, 2012, 2013]:
     print "Result for {year}".format(year=year)
-    print simulate(RawData(DATA_FILES[year]), RawData(DATA_FILES[year-1]),
+    end_cash = simulate(RawData(DATA_FILES[year]), RawData(DATA_FILES[year-1]),
                    decisioner, executioner)
+    print "%f (%.2f%%)" % (end_cash, end_cash / START_CAPITAL * 100)
