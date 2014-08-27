@@ -74,8 +74,8 @@ executioner = Executioner()
 decisioner = Decisioner()
 
 for year in [2011, 2012, 2013]:
-    print "Result for {year}".format(year=year)
+    print("Result for {year}".format(year=year))
     end_cash = simulate(RawData(DATA_FILES[year]), RawData(DATA_FILES[year-1]),
                    decisioner, executioner)
-    print "{end_cash} - {percent}%".format(
-        end_cash=end_cash, percent=round(end_cash / START_CAPITAL * 100, 3))
+    print("{end_cash} - {percent}%".format(
+        end_cash=end_cash, percent=round(end_cash / START_CAPITAL * 100, 3)))

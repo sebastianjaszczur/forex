@@ -83,6 +83,9 @@ class Simulation(object):
                                  else self.price[1]))):
             raise ValueError("Bankrupt because of leverage!")
 
+    def __next__(self):
+        return self.next()
+
     def next(self):
         self.check_for_bankruptcy()
         self._history_raw_data.append(self._raw_data[self.current_time])
