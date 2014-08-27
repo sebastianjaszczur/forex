@@ -7,7 +7,7 @@ from copy import deepcopy
 
 VERSION_NUMBER = 1.1
 
-print "API version {version}".format(version=VERSION_NUMBER)
+print("API version {version}".format(version=VERSION_NUMBER))
 
 DataRecord = collections.namedtuple('DataRecord', [
     'timestamp', 'open', 'high', 'low', 'close', 'volume'])
