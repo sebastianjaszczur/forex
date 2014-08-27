@@ -6,7 +6,7 @@ from datetime import datetime
 
 VERSION_NUMBER = 1.2
 
-print "API version {version}".format(version=VERSION_NUMBER)
+print("API version {version}".format(version=VERSION_NUMBER))
 
 DataRecord = collections.namedtuple('DataRecord', [
     'timestamp', 'open', 'high', 'low', 'close', 'volume'])
@@ -86,6 +86,9 @@ class Simulation(object):
             abs(self.currency / (self.price[0] if self.currency < 0
                                  else self.price[1]))):
             raise ValueError("Bankrupt because of leverage!")
+
+    def __next__(self):
+        return self.next()
 
     def next(self):
         self.check_for_bankruptcy()
