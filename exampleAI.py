@@ -4,11 +4,12 @@ import random
 
 
 class Executioner(object):
+
     def execute(self, simulation, decision):
         if decision == "BUY":
-            simulation.buy(simulation.all_value*0.9)
+            simulation.buy(simulation.all_value * 0.9)
         elif decision == "SELL":
-            simulation.sell(simulation.all_value*0.9)
+            simulation.sell(simulation.all_value * 0.9)
         elif decision == "RESET":
             simulation.reset()
         elif decision == "HOLD":
@@ -38,7 +39,7 @@ class Decisioner(object):
         else:
             decision = 0
 
-        #decision = random.randint(-1, 1)
+        # decision = random.randint(-1, 1)
 
         if decision == 0:
             if simulation.currency == 0:
@@ -74,11 +75,11 @@ executioner = Executioner()
 decisioner = Decisioner()
 
 raw_data = dict([(year, RawData(DATA_FILES[year]))
-             for year in [2010, 2011, 2012, 2013]])
+                 for year in [2010, 2011, 2012, 2013]])
 
 for year in [2011, 2012, 2013]:
     print("Result for {year}".format(year=year))
-    end_cash = simulate(raw_data[year], raw_data[year-1], decisioner,
+    end_cash = simulate(raw_data[year], raw_data[year - 1], decisioner,
                         executioner)
     print("{end_cash} - {percent}%".format(
         end_cash=end_cash, percent=round(end_cash / START_CAPITAL * 100, 3)))

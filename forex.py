@@ -26,6 +26,7 @@ def timecsv_to_datetime(timecsv):
 
 
 class RawData(list):
+
     def __init__(self, filename):
         with open(filename, 'r') as csvfile:
             spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
@@ -41,6 +42,7 @@ class RawData(list):
 
 
 class Simulation(object):
+
     def __init__(self, raw_data, raw_history_data, spread=SPREAD,
                  start_capital=START_CAPITAL, leverage=LEVERAGE):
         self.spread = NUMBER_TYPE(str(spread))
@@ -105,8 +107,10 @@ class Simulation(object):
         if index > 0:
             raise ValueError("You cannot see the future.")
         if self.current_time + index >= 0:
-            return (self._raw_data[self.current_time + index].open,
-                    self._raw_data[self.current_time + index].open+self.spread)
+            return (
+                self._raw_data[self.current_time + index].open,
+                self._raw_data[self.current_time + index].open + self.spread
+            )
         else:
             return (self._history_raw_data[self.current_time + index].open,
                     (self._history_raw_data[self.current_time + index].open +
@@ -115,8 +119,9 @@ class Simulation(object):
     @property
     def timedelta(self):
         try:
-            return (self._raw_data[self.current_time+1].timestamp -
-                    self._raw_data[self.current_time].timestamp).total_seconds()
+            return (self._raw_data[self.current_time + 1].timestamp -
+                    self._raw_data[self.current_time].timestamp
+                    ).total_seconds()
         except IndexError:
             return 1000000.0
 
@@ -124,10 +129,10 @@ class Simulation(object):
     def price(self):
         try:
             return (self._raw_data[self.current_time].open,
-                    self._raw_data[self.current_time].open+self.spread)
+                    self._raw_data[self.current_time].open + self.spread)
         except IndexError:
-            return (self._raw_data[self.current_time-1].close,
-                    self._raw_data[self.current_time-1].close+self.spread)
+            return (self._raw_data[self.current_time - 1].close,
+                    self._raw_data[self.current_time - 1].close + self.spread)
 
 
 def simulate(raw_data, old_data, decisioner, executioner, **kwargs):
@@ -141,4 +146,3 @@ def simulate(raw_data, old_data, decisioner, executioner, **kwargs):
 
 
 # this is the end of library things
-
