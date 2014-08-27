@@ -3,6 +3,7 @@ import collections
 
 from settings import START_CAPITAL, SPREAD, LEVERAGE, NUMBER_TYPE
 from datetime import datetime
+from copy import deepcopy
 
 DataRecord = collections.namedtuple('DataRecord', [
     'timestamp', 'open', 'high', 'low', 'close', 'volume'])
@@ -40,8 +41,8 @@ class Simulation(object):
     def __init__(self, raw_data, raw_history_data, spread=SPREAD,
                  start_capital=START_CAPITAL, leverage=LEVERAGE):
         self.spread = NUMBER_TYPE(str(spread))
-        self._raw_data = raw_data
-        self._history_raw_data = raw_history_data
+        self._raw_data = deepcopy(raw_data)
+        self._history_raw_data = deepcopy(raw_history_data)
         self.current_time = -1
         self.capital = NUMBER_TYPE(start_capital)
         self.currency = NUMBER_TYPE(0.0)
