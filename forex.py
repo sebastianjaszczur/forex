@@ -3,9 +3,8 @@ import collections
 
 from settings import START_CAPITAL, SPREAD, LEVERAGE, NUMBER_TYPE
 from datetime import datetime
-from copy import deepcopy
 
-VERSION_NUMBER = 1.1
+VERSION_NUMBER = 1.2
 
 print "API version {version}".format(version=VERSION_NUMBER)
 
@@ -46,7 +45,7 @@ class Simulation(object):
                  start_capital=START_CAPITAL, leverage=LEVERAGE):
         self.spread = NUMBER_TYPE(str(spread))
         self._raw_data = raw_data
-        self._history_raw_data = deepcopy(raw_history_data)
+        self._history_raw_data = raw_history_data
         self.current_time = -1
         self.capital = NUMBER_TYPE(start_capital)
         self.currency = NUMBER_TYPE(0.0)
@@ -90,7 +89,6 @@ class Simulation(object):
 
     def next(self):
         self.check_for_bankruptcy()
-        self._history_raw_data.append(self._raw_data[self.current_time])
 
         self.current_time += 1
         if self.current_time >= len(self._raw_data):
@@ -103,8 +101,13 @@ class Simulation(object):
             return self.price
         if index > 0:
             raise ValueError("You cannot see the future.")
-        return (self._history_raw_data[index].open,
-                self._history_raw_data[index].open+self.spread)
+        if self.current_time + index >= 0:
+            return (self._raw_data[self.current_time + index].open,
+                    self._raw_data[self.current_time + index].open+self.spread)
+        else:
+            return (self._history_raw_data[self.current_time + index].open,
+                    (self._history_raw_data[self.current_time + index].open +
+                     self.spread))
 
     @property
     def timedelta(self):
